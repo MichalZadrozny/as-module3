@@ -21,11 +21,13 @@ public class AppUser implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private Role role;
     private boolean isAccountEnabled;
 
-    public AppUser(String username, String password, boolean isAccountEnabled) {
+    public AppUser(String username, String password, Role role, boolean isAccountEnabled) {
         this.username = username;
         this.password = password;
+        this.role = role;
         this.isAccountEnabled = isAccountEnabled;
     }
 
@@ -34,7 +36,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+        return Collections.singleton(new SimpleGrantedAuthority(role.getAuthority()));
     }
 
     @Override
