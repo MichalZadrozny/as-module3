@@ -21,6 +21,7 @@ public class AppUser implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private String email;
     private Role role;
     private boolean isAccountEnabled;
 
@@ -32,6 +33,7 @@ public class AppUser implements UserDetails {
     }
 
     public AppUser() {
+        this.role = Role.ROLE_USER;
     }
 
     @Override
