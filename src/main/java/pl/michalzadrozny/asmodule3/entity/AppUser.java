@@ -24,13 +24,8 @@ public class AppUser implements UserDetails {
     private String email;
     private Role role;
     private boolean isAccountEnabled;
-
-    public AppUser(String username, String password, Role role, boolean isAccountEnabled) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.isAccountEnabled = isAccountEnabled;
-    }
+    private boolean adminRightsRequest;
+    private boolean adminApprovedRole;
 
     public AppUser() {
         this.role = Role.ROLE_USER;
@@ -38,7 +33,10 @@ public class AppUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(role.getAuthority()));
+        if (adminRightsRequest && adminApprovedRole) {
+            return Collections.singleton(new SimpleGrantedAuthority(Role.ROLE_ADMIN.getAuthority()));
+        }
+        return Collections.singleton(new SimpleGrantedAuthority(Role.ROLE_USER.getAuthority()));
     }
 
     @Override

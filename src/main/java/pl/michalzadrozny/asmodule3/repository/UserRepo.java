@@ -7,7 +7,7 @@ import pl.michalzadrozny.asmodule3.entity.AppUser;
 import java.util.Optional;
 
 @Repository
-public interface AppUserRepo extends JpaRepository<AppUser, Long> {
+public interface UserRepo extends JpaRepository<AppUser, Long> {
 
     Optional<AppUser> findByUsername(String username);
 }
