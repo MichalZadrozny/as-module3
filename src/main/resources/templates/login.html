@@ -15,6 +15,9 @@
     <label for="remember-me">Remember me</label>:
     <input type="checkbox" id="remember-me" name="remember-me" /> <br />
 
+    <p th:if="${activated != null}" th:text="${activated}"></p>
+
+
     <input type="submit" value="Log in" />
 
 </form>
