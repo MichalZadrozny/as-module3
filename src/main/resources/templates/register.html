@@ -6,20 +6,22 @@
 </head>
 <body>
 
-<form th:action="@{/register}" method="post">
+<form method="post" th:action="@{/register}">
     <label for="username">Username</label>:
-    <input type="text" id="username" name="username"/> <br />
+    <input id="username" name="username" type="text"/> <br/>
+
+    <p th:if="${error != null}" th:text="${error}"></p>
 
     <label for="password">Password</label>:
-    <input type="password" id="password" name="password" /> <br />
+    <input id="password" name="password" type="password"/> <br/>
 
     <label for="email">Email</label>:
-    <input type="text" id="email" name="email" /> <br />
+    <input id="email" name="email" type="text"/> <br/>
 
     <label for="adminRightsRequest">Ask for administrator rights</label>:
-    <input type="checkbox" id="adminRightsRequest" name="adminRightsRequest" /> <br />
+    <input id="adminRightsRequest" name="adminRightsRequest" type="checkbox"/> <br/>
 
-    <input type="submit" value="Sign up" />
+    <input type="submit" value="Sign up"/>
 </form>
 
 </body>

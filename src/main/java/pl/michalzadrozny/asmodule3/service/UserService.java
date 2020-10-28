@@ -22,9 +22,12 @@ public class UserService {
 
     public void addNewUser(AppUser user) {
 
+        if (userRepo.findByUsername(user.getUsername()).isPresent()) {
+            throw new IllegalArgumentException("Username already exists");
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        registrationService.sendActivationLink(user.getEmail(), "Link");
-
         userRepo.save(user);
+
+        registrationService.sendActivationLink(user.getEmail(), "Link");
     }
 }

@@ -29,6 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (!user.isPresent()) {
             throw new UsernameNotFoundException("Couldn't found user with username: " + username);
         }
-        return userRepo.findByUsername(username).get();
+
+        return user.get();
     }
 }
