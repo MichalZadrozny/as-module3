@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pl.michalzadrozny.asmodule3.entity.AppUser;
+import pl.michalzadrozny.asmodule3.service.RegistrationService;
 import pl.michalzadrozny.asmodule3.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +22,12 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
 
     private final UserService userService;
-
+    private final RegistrationService registrationService;
 
     @Autowired
-    public LoginController(UserService userService) {
+    public LoginController(UserService userService, RegistrationService registrationService) {
         this.userService = userService;
+        this.registrationService = registrationService;
     }
 
     @GetMapping("/login")
@@ -69,7 +71,19 @@ public class LoginController {
     @GetMapping("/verify-token")
     public String verifyToken(@RequestParam String token) {
         try {
-            userService.verifyToken(token);
+            registrationService.verifyToken(token, false);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+            return "redirect:/login";
+        }
+
+        return "redirect:/login?activated=true";
+    }
+
+    @GetMapping("/verify-token/admin")
+    public String verifyAdminToken(@RequestParam String token) {
+        try {
+            registrationService.verifyToken(token, true);
         } catch (NotFoundException e) {
             e.printStackTrace();
             return "redirect:/login";

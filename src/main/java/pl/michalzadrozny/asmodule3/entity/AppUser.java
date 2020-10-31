@@ -1,5 +1,6 @@
 package pl.michalzadrozny.asmodule3.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,14 +19,16 @@ public class AppUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
     private String username;
     private String password;
     private String email;
+
+    @Enumerated(EnumType.STRING)
     private Role role;
     private boolean isAccountEnabled;
     private boolean adminRightsRequest;
-    private boolean adminApprovedRole;
 
     public AppUser() {
         this.role = Role.ROLE_USER;
@@ -33,10 +36,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (adminRightsRequest && adminApprovedRole) {
-            return Collections.singleton(new SimpleGrantedAuthority(Role.ROLE_ADMIN.getAuthority()));
-        }
-        return Collections.singleton(new SimpleGrantedAuthority(Role.ROLE_USER.getAuthority()));
+        return Collections.singleton(new SimpleGrantedAuthority(role.getAuthority()));
     }
 
     @Override

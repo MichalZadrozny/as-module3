@@ -1,5 +1,6 @@
 package pl.michalzadrozny.asmodule3.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,17 +8,17 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 public class VerificationToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @OneToOne
-    @Setter
     private AppUser appUser;
 
-    @Setter
     private String value;
 
     public VerificationToken(AppUser appUser, String value) {
