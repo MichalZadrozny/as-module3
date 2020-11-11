@@ -5,7 +5,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.michalzadrozny.asmodule3.entity.AppUser;
 import pl.michalzadrozny.asmodule3.repository.UserRepo;
-import pl.michalzadrozny.asmodule3.repository.VerificationTokenRepo;
 
 @Service
 public class UserService {
@@ -15,7 +14,7 @@ public class UserService {
     private final RegistrationService registrationService;
 
     @Autowired
-    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder, RegistrationService registrationService, VerificationTokenRepo verificationTokenRepo) {
+    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder, RegistrationService registrationService) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.registrationService = registrationService;
@@ -26,7 +25,8 @@ public class UserService {
         if (userRepo.findByUsername(user.getUsername()).isPresent()) {
             throw new IllegalArgumentException("Username already exists");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        user.setPassword(passwordEncoder.encode(user.getTempPassword()));
         userRepo.save(user);
 
         registrationService.sendActivationLink(user, false);

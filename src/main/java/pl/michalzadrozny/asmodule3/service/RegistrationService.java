@@ -17,11 +17,11 @@ import java.util.UUID;
 @Service
 public class RegistrationService {
 
-    @Value("${admin.mail}")
-    private String adminEmail;
     private final UserRepo userRepo;
     private final EmailService emailService;
     private final VerificationTokenRepo verificationTokenRepo;
+    @Value("${admin.mail}")
+    private String adminEmail;
 
     @Autowired
     public RegistrationService(UserRepo userRepo, EmailService emailService, VerificationTokenRepo verificationTokenRepo) {

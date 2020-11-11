@@ -6,17 +6,20 @@
 </head>
 <body>
 
-<form method="post" th:action="@{/register}">
+<form action="#" method="post" th:action="@{/register}" th:object="${user}">
     <label for="username">Username</label>:
-    <input id="username" name="username" type="text"/> <br/>
+    <input id="username" name="username" type="text" th:field="*{username}"/> <br/>
+    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Incorrect Username</p>
 
     <p th:if="${error != null}" th:text="${error}"></p>
 
     <label for="password">Password</label>:
-    <input id="password" name="password" type="password"/> <br/>
+    <input id="password" name="password" type="password" th:field="*{tempPassword}"/> <br/>
+    <p th:if="${#fields.hasErrors('tempPassword')}" th:errors="*{tempPassword}">Incorrect Password</p>
 
     <label for="email">Email</label>:
-    <input id="email" name="email" type="text"/> <br/>
+    <input id="email" name="email" type="text" th:field="*{email}"/> <br/>
+    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect Email</p>
 
     <label for="adminRightsRequest">Ask for administrator rights</label>:
     <input id="adminRightsRequest" name="adminRightsRequest" type="checkbox"/> <br/>
